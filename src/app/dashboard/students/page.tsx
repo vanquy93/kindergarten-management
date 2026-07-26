@@ -97,7 +97,7 @@ export default function StudentsPage() {
       if (res.ok) {
         await fetchStudentsAndClasses();
         setIsModalOpen(false);
-        setFormData({ firstName: '', lastName: '', dob: '', gender: 'Nam', classId: '', parentName: '', parentPhone: '' });
+        setFormData({ firstName: '', lastName: '', dob: '', gender: 'Nam', classId: '', parentName: '', parentPhone: '', parentName2: '', parentPhone2: '' });
       } else {
         alert('Có lỗi xảy ra khi lưu học sinh.');
       }
