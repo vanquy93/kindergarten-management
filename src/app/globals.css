@@ -217,3 +217,125 @@ p {
   50% { transform: translate(50px, -40px) scale(1.1); }
   100% { transform: translate(-30px, 60px) scale(0.9); }
 }
+
+/* Mobile Responsiveness */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-sidebar {
+    display: none !important;
+  }
+  
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(0,0,0,0.05);
+    z-index: 9999;
+    padding: 0.5rem 1rem;
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+  }
+
+  .mobile-bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.5rem;
+    border-radius: 12px;
+    flex: 1;
+    transition: var(--transition);
+  }
+
+  .mobile-bottom-nav a.active {
+    color: var(--primary);
+  }
+
+  .mobile-bottom-nav a span.icon {
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+    transition: transform 0.2s;
+  }
+  
+  .mobile-bottom-nav a.active span.icon {
+    transform: translateY(-3px);
+    text-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+  }
+
+  .main-content {
+    padding: 1rem !important;
+    padding-bottom: 90px !important;
+  }
+
+  header.topbar {
+    padding: 1rem !important;
+    min-height: 70px !important;
+  }
+  
+  header.topbar h2 {
+    font-size: 1.2rem !important;
+  }
+  
+  .glass-panel {
+    padding: 1.2rem !important;
+  }
+
+  /* Universal Responsive Tables */
+  table, thead, tbody, th, td, tr { 
+    display: block; 
+  }
+  
+  thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  tr { 
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+  
+  td { 
+    border: none !important;
+    border-bottom: 1px dashed rgba(0,0,0,0.05) !important;
+    position: relative;
+    padding: 0.8rem 0 !important; 
+    text-align: left;
+    display: block;
+  }
+  
+  td:last-child {
+    border-bottom: none !important;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding-right: 1rem;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+}
+
+

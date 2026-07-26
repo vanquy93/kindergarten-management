@@ -46,6 +46,39 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return () => clearInterval(interval);
   }, []);
 
+  const subscribeUser = async (currentRole: string) => {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      try {
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+        });
+        
+        await fetch('/api/push/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subscription, role: currentRole })
+        });
+      } catch (err) {
+        console.error('Push setup failed:', err);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (role && typeof window !== 'undefined' && 'Notification' in window) {
+      if (Notification.permission === 'default') {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') subscribeUser(role);
+        });
+      } else if (Notification.permission === 'granted') {
+        subscribeUser(role);
+      }
+    }
+  }, [role]);
+
+
   const handleOpenNoti = async () => {
     setShowNoti(!showNoti);
     if (!showNoti && unreadCount > 0) {
@@ -75,7 +108,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="bg-shape shape-3"></div>
 
       {/* Sidebar */}
-      <aside style={{ width: isSidebarOpen ? '280px' : '90px', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', borderRight: '1px solid rgba(255, 255, 255, 0.5)', transition: 'var(--transition)', display: 'flex', flexDirection: 'column', zIndex: 100, boxShadow: '4px 0 30px rgba(0,0,0,0.03)' }}>
+      <aside className="desktop-sidebar" style={{ width: isSidebarOpen ? '280px' : '90px', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', borderRight: '1px solid rgba(255, 255, 255, 0.5)', transition: 'var(--transition)', display: 'flex', flexDirection: 'column', zIndex: 100, boxShadow: '4px 0 30px rgba(0,0,0,0.03)' }}>
         <div style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem', borderBottom: '1px solid rgba(0,0,0,0.05)', minHeight: '85px' }}>
           <div style={{ position: 'relative', width: '45px', height: '45px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid var(--primary)' }}>
             <Image src="/logo.jpg" alt="Logo" fill sizes="45px" style={{ objectFit: 'cover' }} />
@@ -111,9 +144,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main Content */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', zIndex: 10 }}>
+      <div className="main-content" style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', zIndex: 10 }}>
         {/* Topbar */}
-        <header style={{ background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(20px)', padding: '1rem 2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.8)', position: 'sticky', top: 0, zIndex: 90, minHeight: '85px' }}>
+        <header className="topbar" style={{ background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(20px)', padding: '1rem 2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.8)', position: 'sticky', top: 0, zIndex: 90, minHeight: '85px' }}>
           <div>
             <h2 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--secondary)' }}>{role === 'parent' ? 'Hồ Sơ Của Bé' : 'Bảng Điều Khiển'}</h2>
             <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.95rem', marginTop: '0.2rem' }}>Thứ Ba, 14 Tháng 7, 2026</p>
@@ -165,6 +198,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <main style={{ flex: 1, padding: '2.5rem', overflowY: 'auto' }}>
           {currentUser ? children : <div style={{textAlign:'center', marginTop:'5rem'}}>Đang tải dữ liệu...</div>}
         </main>
+        
+        {/* Mobile Bottom Navigation */}
+        <nav className="mobile-bottom-nav">
+          {navItems.filter(item => item.roles.includes(role)).slice(0, 5).map(item => {
+            const isActive = pathname === item.path;
+            const shortName = item.name.split(' ')[0] === 'Bảng' ? 'Tin nhắn' : item.name.split(' ')[0] === 'Sức' ? 'Y tế' : item.name.split(' ')[0];
+            return (
+              <Link key={item.path} href={item.path} className={isActive ? 'active' : ''}>
+                <span className="icon">{item.icon}</span>
+                <span>{shortName}</span>
+              </Link>
+            )
+          })}
+        </nav>
       </div>
     </div>
   );
