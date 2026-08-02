@@ -59,6 +59,7 @@ export default function StudentsPage() {
   const [parentData, setParentData] = useState({ name: '', phone: '' });
   const [parentData2, setParentData2] = useState({ name: '', phone: '' });
 
+  const [notiContent, setNotiContent] = useState('');
   const [isEditingClass, setIsEditingClass] = useState(false);
   const [tempClassId, setTempClassId] = useState('');
   const [isNotiModalOpen, setIsNotiModalOpen] = useState(false);
