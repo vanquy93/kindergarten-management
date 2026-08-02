@@ -137,7 +137,7 @@ export default function HealthPage() {
     <div>
       <div className="flex-header" style={{ marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%' }}>
-          <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0, flex: 1 }}>Thực Đơn & Dinh Dưỡng</h2>
+          <h2 className="page-title" style={{ flex: 1 }}>Thực Đơn & Dinh Dưỡng</h2>
           <select 
             className="form-control" 
             style={{ width: '200px', fontWeight: 'bold' }} 

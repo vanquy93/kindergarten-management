@@ -139,7 +139,7 @@ export default function StudentsPage() {
             {activeStudent.firstName.charAt(0)}
           </div>
           <div>
-            <h2 style={{ fontSize: '2rem', color: 'var(--secondary)', margin: 0 }}>{activeStudent.lastName} {activeStudent.firstName}</h2>
+            <h2 className="page-title">{activeStudent.lastName} {activeStudent.firstName}</h2>
             <div style={{ margin: '0.5rem 0 0 0', color: 'var(--text-muted)', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <span>Sinh ngày: {new Date(activeStudent.dob).toLocaleDateString('en-GB')} • Giới tính: {activeStudent.gender}</span>
               <span style={{ borderLeft: '1px solid rgba(0,0,0,0.1)', height: '1.2rem' }}></span>
@@ -349,7 +349,7 @@ export default function StudentsPage() {
   return (
     <div>
       <div className="flex-header" style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Quản Lý Học Sinh</h2>
+        <h2 className="page-title">Quản Lý Học Sinh</h2>
         {(role === 'principal' || role === 'vice_principal') && (
         <button className="btn-primary" onClick={() => setIsModalOpen(true)} style={{ padding: '0.8rem 1.5rem', borderRadius: '12px' }}>
           + Thêm Học Sinh
@@ -386,7 +386,7 @@ export default function StudentsPage() {
                     <td data-label="Phụ Huynh" style={{ padding: '1.2rem', fontWeight: 500 }}>{s.parentName || '---'}</td>
                     <td data-label="Lớp Học" style={{ padding: '1.2rem' }}><span style={{ background: s.classId ? 'rgba(76,175,80,0.1)' : 'rgba(255,152,0,0.1)', color: s.classId ? '#4CAF50' : '#FF9800', padding: '0.4rem 0.8rem', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 600 }}>{className}</span></td>
                     <td data-label="Thao tác" style={{ padding: '1.2rem' }}>
-                      <button onClick={() => setActiveStudent(s)} style={{ background: 'rgba(255,123,84,0.1)', color: 'var(--primary)', border: '1px solid var(--primary)', cursor: 'pointer', fontWeight: 600, padding: '0.5rem 1rem', borderRadius: '8px', transition: 'all 0.2s', width: '100%' }}>Chi tiết</button>
+                      <button onClick={() => setActiveStudent(s)} style={{ background: 'rgba(255,123,84,0.1)', color: 'var(--primary)', border: '1px solid var(--primary)', cursor: 'pointer', fontWeight: 600, padding: '0.5rem 1rem', borderRadius: '8px', transition: 'all 0.2s', width: 'auto', minWidth: '100px' }}>Chi tiết</button>
                     </td>
                   </tr>
                 );

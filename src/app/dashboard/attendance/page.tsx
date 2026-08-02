@@ -120,7 +120,7 @@ export default function AttendancePage() {
       )}
       
       <div className="flex-header" style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Điểm Danh & Giao Trả</h2>
+        <h2 className="page-title">Điểm Danh & Giao Trả</h2>
         
         <div className="flex-header" style={{ width: '100%' }}>
           <input type="date" className="form-control" value={selectedDate} onChange={e => setSelectedDate(e.target.value)} style={{ padding: '0.6rem 1rem', width: '100%' }} />
@@ -176,9 +176,11 @@ export default function AttendancePage() {
                     {displayCheckOut ? <span style={{ color: '#E91E63', fontWeight: 'bold', background: 'rgba(233,30,99,0.1)', padding: '0.3rem 0.8rem', borderRadius: '50px' }}>{displayCheckOut}</span> : <span style={{ color: 'var(--text-muted)' }}>---</span>}
                   </td>
                   {role !== 'parent' ? (
-                    <td data-label="Hành Động" style={{ padding: '1.2rem', display: 'flex', gap: '0.5rem' }}>
-                      <button onClick={() => handleCheckIn(s.id, s.lastName + ' ' + s.firstName, s.className)} disabled={!!displayCheckIn} style={{ width: '100%', padding: '0.6rem 1rem', background: displayCheckIn ? '#f0f0f0' : '#4CAF50', color: displayCheckIn ? '#aaa' : 'white', border: 'none', borderRadius: '8px', cursor: displayCheckIn ? 'not-allowed' : 'pointer', fontWeight: 600, transition: 'var(--transition)' }}>Đến</button>
-                      <button onClick={() => handleCheckOut(s.id, s.lastName + ' ' + s.firstName, s.className)} disabled={!displayCheckIn || !!displayCheckOut} style={{ width: '100%', padding: '0.6rem 1rem', background: !displayCheckIn || !!displayCheckOut ? '#f0f0f0' : '#FF9800', color: !displayCheckIn || !!displayCheckOut ? '#aaa' : 'white', border: 'none', borderRadius: '8px', cursor: !displayCheckIn || !!displayCheckOut ? 'not-allowed' : 'pointer', fontWeight: 600, transition: 'var(--transition)' }}>Về</button>
+                    <td data-label="Hành Động" style={{ padding: '1.2rem' }}>
+                      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', width: '100%' }}>
+                        <button onClick={() => handleCheckIn(s.id, s.lastName + ' ' + s.firstName, s.className)} disabled={!!displayCheckIn} style={{ flex: 1, padding: '0.6rem 0.5rem', background: displayCheckIn ? '#f0f0f0' : '#4CAF50', color: displayCheckIn ? '#aaa' : 'white', border: 'none', borderRadius: '8px', cursor: displayCheckIn ? 'not-allowed' : 'pointer', fontWeight: 600, transition: 'var(--transition)' }}>Đến</button>
+                        <button onClick={() => handleCheckOut(s.id, s.lastName + ' ' + s.firstName, s.className)} disabled={!displayCheckIn || !!displayCheckOut} style={{ flex: 1, padding: '0.6rem 0.5rem', background: !displayCheckIn || !!displayCheckOut ? '#f0f0f0' : '#FF9800', color: !displayCheckIn || !!displayCheckOut ? '#aaa' : 'white', border: 'none', borderRadius: '8px', cursor: !displayCheckIn || !!displayCheckOut ? 'not-allowed' : 'pointer', fontWeight: 600, transition: 'var(--transition)' }}>Về</button>
+                      </div>
                     </td>
                   ) : (
                     <td data-label="Trạng thái" style={{ padding: '1.2rem' }}>

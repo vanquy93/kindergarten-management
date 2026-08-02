@@ -14,6 +14,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [unreadCount, setUnreadCount] = useState(0);
   const [activities, setActivities] = useState<any[]>([]);
   const [showNoti, setShowNoti] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   useEffect(() => {
     const isAuth = localStorage.getItem('isAuthenticated');
@@ -202,7 +203,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         
         {/* Mobile Bottom Navigation */}
         <nav className="mobile-bottom-nav">
-          {navItems.filter(item => item.roles.includes(role)).slice(0, 5).map(item => {
+          {navItems.filter(item => item.roles.includes(role)).slice(0, 4).map(item => {
             const isActive = pathname === item.path;
             const shortName = item.name.split(' ')[0] === 'Bảng' ? 'Tin nhắn' : item.name.split(' ')[0] === 'Sức' ? 'Y tế' : item.name.split(' ')[0];
             return (
@@ -212,7 +213,38 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </Link>
             )
           })}
+          <button onClick={() => setShowMobileMenu(true)} style={{ background: 'none', border: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.3rem', color: 'var(--text-muted)', fontSize: '0.7rem', fontWeight: 500, padding: '0.5rem', flex: 1, cursor: 'pointer' }}>
+            <span className="icon" style={{ fontSize: '1.4rem', marginBottom: '2px' }}>≡</span>
+            <span>Mở rộng</span>
+          </button>
         </nav>
+        
+        {/* Mobile Expanded Menu (Bottom Sheet) */}
+        {showMobileMenu && (
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', zIndex: 10000, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', animation: 'fadeIn 0.2s ease-out' }}>
+            <div style={{ background: 'white', borderTopLeftRadius: '24px', borderTopRightRadius: '24px', padding: '2rem 1.5rem', paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))', animation: 'slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <h3 style={{ margin: 0, color: 'var(--secondary)', fontSize: '1.4rem' }}>Tất Cả Tính Năng</h3>
+                <button onClick={() => setShowMobileMenu(false)} style={{ background: 'rgba(0,0,0,0.05)', border: 'none', width: '36px', height: '36px', borderRadius: '50%', fontSize: '1.2rem', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', color: 'var(--text-main)' }}>×</button>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+                {navItems.filter(item => item.roles.includes(role)).map(item => {
+                  const isActive = pathname === item.path;
+                  return (
+                    <Link key={item.path} href={item.path} onClick={() => setShowMobileMenu(false)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', padding: '1rem 0.5rem', background: isActive ? 'rgba(79, 70, 229, 0.08)' : '#f8fafc', borderRadius: '16px', textDecoration: 'none', border: isActive ? '1px solid var(--primary)' : '1px solid transparent' }}>
+                      <span style={{ fontSize: '1.8rem' }}>{item.icon}</span>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 600, color: isActive ? 'var(--primary)' : 'var(--text-main)', textAlign: 'center' }}>{item.name}</span>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+            <style jsx>{`
+              @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+              @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+            `}</style>
+          </div>
+        )}
       </div>
     </div>
   );

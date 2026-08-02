@@ -55,7 +55,7 @@ export default function TeachersPage() {
   return (
     <div>
       <div className="flex-header" style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Quản Lý Giáo Viên</h2>
+        <h2 className="page-title">Quản Lý Giáo Viên</h2>
         {(role === 'principal' || role === 'vice_principal') && (
           <button className="btn-primary" onClick={() => setIsModalOpen(true)} style={{ width: '100%', padding: '0.8rem 1.5rem', borderRadius: '12px' }}>
             + Thêm Giáo Viên

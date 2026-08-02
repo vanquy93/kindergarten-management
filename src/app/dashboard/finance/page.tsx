@@ -166,7 +166,7 @@ export default function FinancePage() {
   return (
     <div>
       <div className="flex-header" style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Quản Lý Tài Chính & Hóa Đơn</h2>
+        <h2 className="page-title">Quản Lý Tài Chính & Hóa Đơn</h2>
         {(role === 'principal' || role === 'vice_principal') && (
         <div className="flex-header" style={{ width: '100%', gap: '0.5rem' }}>
           <button className="btn-secondary" onClick={handleApproveAll} style={{ width: '100%', padding: '0.8rem 1.5rem', borderRadius: '12px', background: 'white', color: '#FF9800', border: '1px solid #FF9800' }}>
@@ -217,7 +217,7 @@ export default function FinancePage() {
                   {inv.status === 'Chờ Thanh Toán' && (role === 'principal' || role === 'vice_principal') && (
                     <button 
                       onClick={() => handlePay(inv.id)}
-                      style={{ marginTop: '0.8rem', display: 'block', background: 'white', color: 'var(--primary)', border: '1px solid var(--primary)', padding: '0.4rem 0.8rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 'bold', transition: 'all 0.2s', width: '100%' }}
+                      style={{ marginTop: '0.8rem', display: 'inline-block', background: 'white', color: 'var(--primary)', border: '1px solid var(--primary)', padding: '0.4rem 0.8rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 'bold', transition: 'all 0.2s', minWidth: '120px' }}
                       onMouseOver={(e) => { e.currentTarget.style.background = 'var(--primary)'; e.currentTarget.style.color = 'white'; }}
                       onMouseOut={(e) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = 'var(--primary)'; }}
                     >

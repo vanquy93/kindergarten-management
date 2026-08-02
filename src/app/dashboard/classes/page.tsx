@@ -106,7 +106,7 @@ export default function ClassesPage() {
     return (
       <div>
         <div className="flex-header" style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Quản Lý Lớp Học</h2>
+          <h2 className="page-title">Quản Lý Lớp Học</h2>
           {(role === 'principal' || role === 'vice_principal') && (
             <button className="btn-primary" onClick={() => setIsModalOpen(true)} style={{ width: '100%', padding: '0.8rem 1.5rem', borderRadius: '12px' }}>+ Thêm Lớp Mới</button>
           )}
@@ -141,7 +141,7 @@ export default function ClassesPage() {
                     <td data-label="Giáo Viên" style={{ padding: '1.2rem' }}>{c.teachers || c.teacher}</td>
                     <td data-label="Sỉ Số" style={{ padding: '1.2rem', fontWeight: 600, color: 'var(--primary)' }}>{count} bé</td>
                     <td data-label="Hành Động" style={{ padding: '1.2rem' }}>
-                      <button onClick={() => setActiveClass(c)} style={{ background: 'linear-gradient(135deg, var(--primary), var(--accent))', color: 'white', border: 'none', cursor: 'pointer', fontWeight: 600, padding: '0.5rem 1.2rem', borderRadius: '8px', width: '100%' }}>Chi tiết</button>
+                      <button onClick={() => setActiveClass(c)} style={{ background: 'linear-gradient(135deg, var(--primary), var(--accent))', color: 'white', border: 'none', cursor: 'pointer', fontWeight: 600, padding: '0.5rem 1.2rem', borderRadius: '8px', minWidth: '100px' }}>Chi tiết</button>
                     </td>
                   </tr>
                 );
@@ -201,7 +201,7 @@ export default function ClassesPage() {
         <span>←</span> Quay lại
       </button>
       <div className="flex-header" style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>
+        <h2 className="page-title">
           {activeClass.name} <span style={{ fontSize: '1.2rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>({activeClass.ageGroup || 'Chưa cập nhật'})</span>
         </h2>
         <div style={{ fontSize: '1.2rem', color: 'var(--secondary)', fontWeight: 600 }}>GV: {activeClass.teachers || activeClass.teacher}</div>

@@ -41,6 +41,12 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
+.page-title {
+  font-size: 1.8rem;
+  color: var(--secondary);
+  margin: 0;
+}
+
 p {
   margin-bottom: 1rem;
   color: var(--text-muted);
@@ -322,8 +328,8 @@ p {
   tr { 
     border: 1px solid rgba(0,0,0,0.05);
     border-radius: 12px;
-    margin-bottom: 1rem;
-    padding: 1rem;
+    margin-bottom: 0.8rem;
+    padding: 0.8rem;
     background: #fff;
     box-shadow: 0 2px 8px rgba(0,0,0,0.02);
   }
@@ -333,8 +339,15 @@ p {
     border-bottom: 1px dashed rgba(0,0,0,0.05) !important;
     position: relative;
     padding: 0.8rem 0 !important; 
-    text-align: left;
+    text-align: right;
     display: block;
+    min-height: 2.5rem;
+  }
+  
+  td::after {
+    content: "";
+    display: table;
+    clear: both;
   }
   
   td:last-child {
@@ -346,9 +359,10 @@ p {
     font-weight: 600;
     color: var(--text-muted);
     font-size: 0.85rem;
-    padding-right: 1rem;
-    display: block;
-    margin-bottom: 0.2rem;
+    float: left;
+    text-align: left;
+    max-width: 45%;
+    margin-right: 0.5rem;
   }
 }
 
@@ -359,6 +373,10 @@ p {
 @media (max-width: 768px) {
   .desktop-only { display: none !important; }
   .mobile-only { display: block !important; }
+  
+  .page-title {
+    font-size: 1.3rem !important;
+  }
   
   .flex-header {
     flex-direction: column !important;
