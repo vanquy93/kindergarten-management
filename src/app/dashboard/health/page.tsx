@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 export default function HealthPage() {
   const [weekOffset, setWeekOffset] = useState(0);
   const [activeView, setActiveView] = useState('calendar');
+  const [selectedMobileDay, setSelectedMobileDay] = useState(0);
   const [formData, setFormData] = useState({ date: new Date().toISOString().split('T')[0], breakfast: '', morningSnack: '', lunch: '', snack: '', afternoonSnack: '' });
 
   // Trạng thái lưu trữ thực đơn riêng lẻ cho từng ngày trong tuần
@@ -134,9 +135,9 @@ export default function HealthPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Thực Đơn & Dinh Dưỡng</h2>
+      <div className="flex-header" style={{ marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%' }}>
+          <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0, flex: 1 }}>Thực Đơn & Dinh Dưỡng</h2>
           <select 
             className="form-control" 
             style={{ width: '200px', fontWeight: 'bold' }} 
@@ -148,7 +149,7 @@ export default function HealthPage() {
             {classes.map(c => <option key={c.id} value={c.id}>Lớp {c.name}</option>)}
           </select>
         </div>
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
           <button className="btn-secondary" onClick={() => setActiveView('calendar')} style={{ background: activeView === 'calendar' ? 'var(--primary)' : 'white', color: activeView === 'calendar' ? 'white' : 'var(--text-main)', border: activeView === 'calendar' ? 'none' : '1px solid rgba(0,0,0,0.1)' }}>📅 Lịch 7 Ngày</button>
           {role !== 'parent' && (
           <button className="btn-primary" onClick={() => setActiveView('add')}>+ Thêm Thực Đơn</button>
@@ -187,18 +188,34 @@ export default function HealthPage() {
         </div>
       ) : (
       <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)', color: 'white', padding: '1.2rem 2rem', borderRadius: '16px', marginBottom: '2rem', fontWeight: 600, fontSize: '1.2rem', boxShadow: '0 10px 20px rgba(255,123,84,0.3)' }}>
-          <button onClick={() => setWeekOffset(weekOffset - 1)} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', color: 'white', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', transition: 'background 0.2s' }}>&laquo; Tuần trước</button>
-          <span>📍 Khối Thực Đơn Tuần {weekOffset === 0 ? 'Hiện Tại' : (weekOffset > 0 ? `Tới (+${weekOffset})` : `Trước (${weekOffset})`)}</span>
-          <button onClick={() => setWeekOffset(weekOffset + 1)} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', color: 'white', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', transition: 'background 0.2s' }}>Tuần sau &raquo;</button>
+        <div className="flex-header" style={{ background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)', color: 'white', padding: '1.2rem', borderRadius: '16px', marginBottom: '2rem', fontWeight: 600, fontSize: '1.1rem', boxShadow: '0 10px 20px rgba(255,123,84,0.3)', textAlign: 'center' }}>
+          <button onClick={() => setWeekOffset(weekOffset - 1)} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', color: 'white', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', transition: 'background 0.2s', width: '100%' }}>&laquo; Trước</button>
+          <span style={{ width: '100%' }}>📍 Tuần {weekOffset === 0 ? 'Hiện Tại' : (weekOffset > 0 ? `Tới (+${weekOffset})` : `Trước (${weekOffset})`)}</span>
+          <button onClick={() => setWeekOffset(weekOffset + 1)} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', color: 'white', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', transition: 'background 0.2s', width: '100%' }}>Sau &raquo;</button>
         </div>
         
+        {/* MOBILE DAY SELECTOR */}
+        <div className="mobile-only" style={{ marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '1rem', scrollbarWidth: 'none' }}>
+            {daysOfWeek.map((d, i) => (
+              <button 
+                key={d} 
+                onClick={() => setSelectedMobileDay(i)} 
+                style={{ padding: '0.5rem 1rem', borderRadius: '20px', background: selectedMobileDay === i ? 'var(--primary)' : 'white', color: selectedMobileDay === i ? 'white' : 'var(--secondary)', border: '1px solid rgba(0,0,0,0.1)', fontWeight: 'bold', whiteSpace: 'nowrap' }}
+              >
+                {d}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
           {daysOfWeek.map((day, idx) => {
             const isEditing = editingDay === day;
+            const isVisibleOnMobile = idx === selectedMobileDay;
             
             return (
-              <div key={day} className="glass-panel" style={{ background: 'white', borderRadius: '16px', borderTop: `4px solid ${idx % 2 === 0 ? 'var(--primary)' : 'var(--accent)'}`, padding: '1.5rem', transition: 'all 0.3s', boxShadow: isEditing ? '0 10px 30px rgba(255,123,84,0.15)' : 'none' }}>
+              <div key={day} className={`glass-panel ${!isVisibleOnMobile ? 'desktop-only' : ''}`} style={{ background: 'white', borderRadius: '16px', borderTop: `4px solid ${idx % 2 === 0 ? 'var(--primary)' : 'var(--accent)'}`, padding: '1.5rem', transition: 'all 0.3s', boxShadow: isEditing ? '0 10px 30px rgba(255,123,84,0.15)' : 'none' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '1rem', marginBottom: '1rem' }}>
                   <h3 style={{ margin: 0, color: 'var(--secondary)' }}>{day} <span style={{fontSize:'0.9rem', color:'var(--text-muted)'}}>({dates[idx].split('-').reverse().join('/')})</span></h3>
                   {role !== 'parent' && (

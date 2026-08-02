@@ -105,10 +105,10 @@ export default function ClassesPage() {
   if (!activeClass) {
     return (
       <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <div className="flex-header" style={{ marginBottom: '2rem' }}>
           <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Quản Lý Lớp Học</h2>
           {(role === 'principal' || role === 'vice_principal') && (
-            <button className="btn-primary" onClick={() => setIsModalOpen(true)} style={{ padding: '0.8rem 1.5rem', borderRadius: '12px' }}>+ Thêm Lớp Mới</button>
+            <button className="btn-primary" onClick={() => setIsModalOpen(true)} style={{ width: '100%', padding: '0.8rem 1.5rem', borderRadius: '12px' }}>+ Thêm Lớp Mới</button>
           )}
         </div>
         <div className="glass-panel" style={{ background: 'white', padding: '0', overflow: 'hidden', borderRadius: '16px' }}>
@@ -136,12 +136,12 @@ export default function ClassesPage() {
                 const count = students.filter(s => s.classId === c.id).length;
                 return (
                   <tr key={c.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
-                    <td style={{ padding: '1.2rem', fontWeight: 600, color: 'var(--secondary)' }}>{c.name}</td>
-                    <td style={{ padding: '1.2rem' }}><span style={{ padding: '0.4rem 1rem', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 600, background: 'rgba(33, 150, 243, 0.1)', color: '#2196F3' }}>{c.grade}</span></td>
-                    <td style={{ padding: '1.2rem' }}>{c.teachers || c.teacher}</td>
-                    <td style={{ padding: '1.2rem', fontWeight: 600, color: 'var(--primary)' }}>{count} bé</td>
-                    <td style={{ padding: '1.2rem' }}>
-                      <button onClick={() => setActiveClass(c)} style={{ background: 'linear-gradient(135deg, var(--primary), var(--accent))', color: 'white', border: 'none', cursor: 'pointer', fontWeight: 600, padding: '0.5rem 1.2rem', borderRadius: '8px' }}>Chi tiết</button>
+                    <td data-label="Tên Lớp" style={{ padding: '1.2rem', fontWeight: 600, color: 'var(--secondary)' }}>{c.name}</td>
+                    <td data-label="Khối" style={{ padding: '1.2rem' }}><span style={{ padding: '0.4rem 1rem', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 600, background: 'rgba(33, 150, 243, 0.1)', color: '#2196F3' }}>{c.grade}</span></td>
+                    <td data-label="Giáo Viên" style={{ padding: '1.2rem' }}>{c.teachers || c.teacher}</td>
+                    <td data-label="Sỉ Số" style={{ padding: '1.2rem', fontWeight: 600, color: 'var(--primary)' }}>{count} bé</td>
+                    <td data-label="Hành Động" style={{ padding: '1.2rem' }}>
+                      <button onClick={() => setActiveClass(c)} style={{ background: 'linear-gradient(135deg, var(--primary), var(--accent))', color: 'white', border: 'none', cursor: 'pointer', fontWeight: 600, padding: '0.5rem 1.2rem', borderRadius: '8px', width: '100%' }}>Chi tiết</button>
                     </td>
                   </tr>
                 );
@@ -152,7 +152,7 @@ export default function ClassesPage() {
 
         {isModalOpen && (
           <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, backdropFilter: 'blur(5px)' }}>
-            <div className="glass-panel" style={{ background: 'white', width: '100%', maxWidth: '500px', padding: '2.5rem', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.1)' }}>
+            <div className="glass-panel" style={{ background: 'white', width: '100%', maxWidth: '500px', padding: '1.5rem', borderRadius: '24px', boxShadow: '0 20px 50px rgba(0,0,0,0.1)', maxHeight: '90vh', overflowY: 'auto' }}>
               <h3 style={{ margin: '0 0 1.5rem 0', color: 'var(--secondary)', fontSize: '1.5rem' }}>Thêm Lớp Học Mới</h3>
               
               <div className="input-group">
@@ -198,11 +198,11 @@ export default function ClassesPage() {
   return (
     <div>
       <button onClick={() => setActiveClass(null)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontSize: '1.1rem' }}>
-        <span>←</span> Quay lại danh sách lớp
+        <span>←</span> Quay lại
       </button>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <div className="flex-header" style={{ marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>
-          {activeClass.name} <span style={{ fontSize: '1.2rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>({activeClass.ageGroup || 'Chưa cập nhật độ tuổi'})</span>
+          {activeClass.name} <span style={{ fontSize: '1.2rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>({activeClass.ageGroup || 'Chưa cập nhật'})</span>
         </h2>
         <div style={{ fontSize: '1.2rem', color: 'var(--secondary)', fontWeight: 600 }}>GV: {activeClass.teachers || activeClass.teacher}</div>
       </div>

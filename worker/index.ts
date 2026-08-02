@@ -1,5 +1,6 @@
 /// <reference lib="webworker" />
-declare let self: ServiceWorkerGlobalScope;
+export type {};
+declare const self: ServiceWorkerGlobalScope;
 
 self.addEventListener('push', (event) => {
   const data = event.data?.json() ?? { title: 'KinderCare', message: 'Bạn có thông báo mới' };

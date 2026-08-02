@@ -111,7 +111,7 @@ export default function StudentsPage() {
   if (activeStudent) {
     return (
       <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <div className="flex-header" style={{ marginBottom: '1.5rem' }}>
           <button onClick={() => setActiveStudent(null)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem' }}>
             <span>←</span> Quay lại danh sách
           </button>
@@ -176,7 +176,7 @@ export default function StudentsPage() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+        <div className="grid-responsive-2" style={{ gap: '2rem' }}>
           {/* Sức Khỏe */}
           <div className="glass-panel" style={{ background: 'white', borderRadius: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
@@ -275,7 +275,7 @@ export default function StudentsPage() {
               }} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', fontWeight: 600 }}>{isEditingParent ? 'Lưu' : 'Chỉnh sửa'}</button>}
             </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div className="grid-responsive-2" style={{ gap: '1.5rem', marginBottom: '1.5rem' }}>
               <div style={{ background: '#f9f9f9', padding: '1rem', borderRadius: '12px' }}>
                 <h4 style={{ margin: '0 0 1rem 0', color: 'var(--primary)' }}>Thông tin Mẹ</h4>
                 {isEditingParent ? (
@@ -348,7 +348,7 @@ export default function StudentsPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <div className="flex-header" style={{ marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Quản Lý Học Sinh</h2>
         {(role === 'principal' || role === 'vice_principal') && (
         <button className="btn-primary" onClick={() => setIsModalOpen(true)} style={{ padding: '0.8rem 1.5rem', borderRadius: '12px' }}>
@@ -379,14 +379,14 @@ export default function StudentsPage() {
                 const className = sClass ? sClass.name : 'Chưa xếp lớp';
                 return (
                   <tr key={s.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
-                    <td style={{ padding: '1.2rem', fontWeight: 600, color: 'var(--text-muted)' }}>#{s.id.substring(0, 6).toUpperCase()}</td>
-                    <td style={{ padding: '1.2rem', fontWeight: 600, color: 'var(--secondary)' }}>{s.lastName} {s.firstName}</td>
-                    <td style={{ padding: '1.2rem' }}>{new Date(s.dob).toLocaleDateString('en-GB')}</td>
-                    <td style={{ padding: '1.2rem' }}>{s.gender}</td>
-                    <td style={{ padding: '1.2rem', fontWeight: 500 }}>{s.parentName || '---'}</td>
-                    <td style={{ padding: '1.2rem' }}><span style={{ background: s.classId ? 'rgba(76,175,80,0.1)' : 'rgba(255,152,0,0.1)', color: s.classId ? '#4CAF50' : '#FF9800', padding: '0.4rem 0.8rem', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 600 }}>{className}</span></td>
-                    <td style={{ padding: '1.2rem' }}>
-                      <button onClick={() => setActiveStudent(s)} style={{ background: 'rgba(255,123,84,0.1)', color: 'var(--primary)', border: '1px solid var(--primary)', cursor: 'pointer', fontWeight: 600, padding: '0.5rem 1rem', borderRadius: '8px', transition: 'all 0.2s' }}>Chi tiết / Sổ liên lạc</button>
+                    <td data-label="Mã HS" style={{ padding: '1.2rem', fontWeight: 600, color: 'var(--text-muted)' }}>#{s.id.substring(0, 6).toUpperCase()}</td>
+                    <td data-label="Họ Tên" style={{ padding: '1.2rem', fontWeight: 600, color: 'var(--secondary)' }}>{s.lastName} {s.firstName}</td>
+                    <td data-label="Ngày Sinh" style={{ padding: '1.2rem' }}>{new Date(s.dob).toLocaleDateString('en-GB')}</td>
+                    <td data-label="Giới Tính" style={{ padding: '1.2rem' }}>{s.gender}</td>
+                    <td data-label="Phụ Huynh" style={{ padding: '1.2rem', fontWeight: 500 }}>{s.parentName || '---'}</td>
+                    <td data-label="Lớp Học" style={{ padding: '1.2rem' }}><span style={{ background: s.classId ? 'rgba(76,175,80,0.1)' : 'rgba(255,152,0,0.1)', color: s.classId ? '#4CAF50' : '#FF9800', padding: '0.4rem 0.8rem', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 600 }}>{className}</span></td>
+                    <td data-label="Thao tác" style={{ padding: '1.2rem' }}>
+                      <button onClick={() => setActiveStudent(s)} style={{ background: 'rgba(255,123,84,0.1)', color: 'var(--primary)', border: '1px solid var(--primary)', cursor: 'pointer', fontWeight: 600, padding: '0.5rem 1rem', borderRadius: '8px', transition: 'all 0.2s', width: '100%' }}>Chi tiết</button>
                     </td>
                   </tr>
                 );
@@ -398,9 +398,9 @@ export default function StudentsPage() {
 
       {isModalOpen && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, backdropFilter: 'blur(5px)' }}>
-          <div className="glass-panel" style={{ background: 'white', width: '100%', maxWidth: '600px', padding: '2.5rem', borderRadius: '24px' }}>
+          <div className="glass-panel" style={{ background: 'white', width: '100%', maxWidth: '600px', padding: '1.5rem', borderRadius: '24px', maxHeight: '90vh', overflowY: 'auto' }}>
             <h3 style={{ margin: '0 0 1.5rem 0', color: 'var(--secondary)', fontSize: '1.5rem' }}>Thêm Học Sinh Mới</h3>
-            <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+            <form onSubmit={handleSubmit} className="grid-responsive-2" style={{ gap: '1.5rem' }}>
               <div className="input-group">
                 <label>Họ và Tên Đệm</label>
                 <input type="text" className="form-control" required value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} placeholder="Nguyễn Văn" />

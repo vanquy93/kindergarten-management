@@ -119,24 +119,24 @@ export default function AttendancePage() {
         </div>
       )}
       
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <div className="flex-header" style={{ marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Điểm Danh & Giao Trả</h2>
         
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <input type="date" className="form-control" value={selectedDate} onChange={e => setSelectedDate(e.target.value)} style={{ padding: '0.6rem 1rem' }} />
+        <div className="flex-header" style={{ width: '100%' }}>
+          <input type="date" className="form-control" value={selectedDate} onChange={e => setSelectedDate(e.target.value)} style={{ padding: '0.6rem 1rem', width: '100%' }} />
           
-          <select className="form-control" value={filterType} onChange={e => { setFilterType(e.target.value); setFilterValue('all'); }} style={{ width: '150px' }}>
+          <select className="form-control" value={filterType} onChange={e => { setFilterType(e.target.value); setFilterValue('all'); }} style={{ width: '100%' }}>
             <option value="class">Lọc theo Lớp</option>
             <option value="teacher">Lọc theo Giáo Viên</option>
           </select>
 
           {filterType === 'class' ? (
-            <select className="form-control" value={filterValue} onChange={e => setFilterValue(e.target.value)} style={{ width: '180px' }}>
+            <select className="form-control" value={filterValue} onChange={e => setFilterValue(e.target.value)} style={{ width: '100%' }}>
               <option value="all">Tất cả các lớp</option>
               {dbClasses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           ) : (
-            <select className="form-control" value={filterValue} onChange={e => setFilterValue(e.target.value)} style={{ width: '180px' }}>
+            <select className="form-control" value={filterValue} onChange={e => setFilterValue(e.target.value)} style={{ width: '100%' }}>
               <option value="all">Tất cả giáo viên</option>
               {dbTeachers.map(t => <option key={t.id} value={t.name}>{t.name}</option>)}
             </select>
@@ -164,24 +164,24 @@ export default function AttendancePage() {
 
               return (
                 <tr key={s.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
-                  <td style={{ padding: '1.2rem', fontWeight: 600 }}>{s.lastName} {s.firstName}</td>
-                  <td style={{ padding: '1.2rem' }}>
+                  <td data-label="Học Sinh" style={{ padding: '1.2rem', fontWeight: 600 }}>{s.lastName} {s.firstName}</td>
+                  <td data-label="Thông tin nhóm" style={{ padding: '1.2rem' }}>
                     <div style={{ color: 'var(--primary)', fontWeight: 600 }}>{s.className}</div>
                     <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>GV: {s.teacherName}</div>
                   </td>
-                  <td style={{ padding: '1.2rem' }}>
+                  <td data-label="Check-in" style={{ padding: '1.2rem' }}>
                     {displayCheckIn ? <span style={{ color: '#4CAF50', fontWeight: 'bold', background: 'rgba(76,175,80,0.1)', padding: '0.3rem 0.8rem', borderRadius: '50px' }}>{displayCheckIn}</span> : <span style={{ color: 'var(--text-muted)' }}>---</span>}
                   </td>
-                  <td style={{ padding: '1.2rem' }}>
+                  <td data-label="Check-out" style={{ padding: '1.2rem' }}>
                     {displayCheckOut ? <span style={{ color: '#E91E63', fontWeight: 'bold', background: 'rgba(233,30,99,0.1)', padding: '0.3rem 0.8rem', borderRadius: '50px' }}>{displayCheckOut}</span> : <span style={{ color: 'var(--text-muted)' }}>---</span>}
                   </td>
                   {role !== 'parent' ? (
-                    <td style={{ padding: '1.2rem', display: 'flex', gap: '0.5rem' }}>
-                      <button onClick={() => handleCheckIn(s.id, s.lastName + ' ' + s.firstName, s.className)} disabled={!!displayCheckIn} style={{ padding: '0.6rem 1rem', background: displayCheckIn ? '#f0f0f0' : '#4CAF50', color: displayCheckIn ? '#aaa' : 'white', border: 'none', borderRadius: '8px', cursor: displayCheckIn ? 'not-allowed' : 'pointer', fontWeight: 600, transition: 'var(--transition)' }}>Đến</button>
-                      <button onClick={() => handleCheckOut(s.id, s.lastName + ' ' + s.firstName, s.className)} disabled={!displayCheckIn || !!displayCheckOut} style={{ padding: '0.6rem 1rem', background: !displayCheckIn || !!displayCheckOut ? '#f0f0f0' : '#FF9800', color: !displayCheckIn || !!displayCheckOut ? '#aaa' : 'white', border: 'none', borderRadius: '8px', cursor: !displayCheckIn || !!displayCheckOut ? 'not-allowed' : 'pointer', fontWeight: 600, transition: 'var(--transition)' }}>Về</button>
+                    <td data-label="Hành Động" style={{ padding: '1.2rem', display: 'flex', gap: '0.5rem' }}>
+                      <button onClick={() => handleCheckIn(s.id, s.lastName + ' ' + s.firstName, s.className)} disabled={!!displayCheckIn} style={{ width: '100%', padding: '0.6rem 1rem', background: displayCheckIn ? '#f0f0f0' : '#4CAF50', color: displayCheckIn ? '#aaa' : 'white', border: 'none', borderRadius: '8px', cursor: displayCheckIn ? 'not-allowed' : 'pointer', fontWeight: 600, transition: 'var(--transition)' }}>Đến</button>
+                      <button onClick={() => handleCheckOut(s.id, s.lastName + ' ' + s.firstName, s.className)} disabled={!displayCheckIn || !!displayCheckOut} style={{ width: '100%', padding: '0.6rem 1rem', background: !displayCheckIn || !!displayCheckOut ? '#f0f0f0' : '#FF9800', color: !displayCheckIn || !!displayCheckOut ? '#aaa' : 'white', border: 'none', borderRadius: '8px', cursor: !displayCheckIn || !!displayCheckOut ? 'not-allowed' : 'pointer', fontWeight: 600, transition: 'var(--transition)' }}>Về</button>
                     </td>
                   ) : (
-                    <td style={{ padding: '1.2rem' }}>
+                    <td data-label="Trạng thái" style={{ padding: '1.2rem' }}>
                       <span style={{ color: 'var(--text-muted)' }}>Chỉ xem</span>
                     </td>
                   )}

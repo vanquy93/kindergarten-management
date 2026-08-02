@@ -32,6 +32,7 @@ export default function SchedulePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [theme, setTheme] = useState('Chủ đề của tuần');
   const [rows, setRows] = useState<RowData[]>([]);
+  const [selectedDay, setSelectedDay] = useState<'mon'|'tue'|'wed'|'thu'|'fri'|'sat'>('mon');
 
   const [classes, setClasses] = useState<any[]>([]);
   const [selectedClassId, setSelectedClassId] = useState<string>('');
@@ -189,7 +190,76 @@ export default function SchedulePage() {
         </div>
       </div>
 
-      <div style={{ overflowX: 'auto', background: 'white', padding: '1rem', borderRadius: '8px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
+      {/* MOBILE DAY VIEW */}
+      <div className="mobile-only" style={{ marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '1rem', scrollbarWidth: 'none' }}>
+          {([
+            { key: 'mon', label: 'Thứ 2' },
+            { key: 'tue', label: 'Thứ 3' },
+            { key: 'wed', label: 'Thứ 4' },
+            { key: 'thu', label: 'Thứ 5' },
+            { key: 'fri', label: 'Thứ 6' },
+            { key: 'sat', label: 'Thứ 7' }
+          ] as const).map(d => (
+            <button 
+              key={d.key} 
+              onClick={() => setSelectedDay(d.key)} 
+              style={{ padding: '0.5rem 1rem', borderRadius: '20px', background: selectedDay === d.key ? 'var(--primary)' : 'white', color: selectedDay === d.key ? 'white' : 'var(--secondary)', border: '1px solid rgba(0,0,0,0.1)', fontWeight: 'bold', whiteSpace: 'nowrap' }}
+            >
+              {d.label}
+            </button>
+          ))}
+        </div>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {rows.map(row => {
+            const text = selectedDay === 'sat' ? row.sat : (row.isMerged ? row.content : row[selectedDay]);
+            if (!text && !isEditing) return null;
+            return (
+              <div key={row.id} style={{ background: 'white', padding: '1rem', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', borderLeft: `4px solid ${row.session === 'morning' ? '#3b82f6' : '#f59e0b'}` }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                  <div style={{ fontWeight: 'bold', color: row.session === 'morning' ? '#3b82f6' : '#f59e0b', background: row.session === 'morning' ? '#eff6ff' : '#fef3c7', padding: '0.2rem 0.6rem', borderRadius: '8px', fontSize: '0.85rem' }}>
+                    {row.session === 'morning' ? 'SÁNG' : 'CHIỀU'} • {row.time}
+                  </div>
+                  {isEditing && (
+                    <button onClick={() => removeRow(row.id)} style={{ color: 'red', border: 'none', background: 'transparent', fontSize: '0.8rem' }}>Xóa</button>
+                  )}
+                </div>
+                
+                {isEditing ? (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    <input placeholder="Thời gian (VD: 7h00 - 8h30)" value={row.time} onChange={e => updateRow(row.id, 'time', e.target.value)} style={{ width: '100%', padding: '0.4rem', border: '1px solid #ccc', borderRadius: '6px' }} />
+                    {selectedDay === 'sat' ? (
+                      <textarea value={row.sat} onChange={e => updateRow(row.id, 'sat', e.target.value)} style={{...inputStyle, minHeight: '80px'}} />
+                    ) : row.isMerged ? (
+                      <div>
+                        <div style={{ fontSize: '0.8rem', color: '#666', marginBottom: '4px' }}>(Nội dung gộp chung T2-T6)</div>
+                        <textarea value={row.content} onChange={e => updateRow(row.id, 'content', e.target.value)} style={{...inputStyle, minHeight: '80px'}} />
+                      </div>
+                    ) : (
+                      <textarea value={row[selectedDay] as string} onChange={e => updateRow(row.id, selectedDay, e.target.value)} style={{...inputStyle, minHeight: '80px'}} />
+                    )}
+                    {selectedDay !== 'sat' && (
+                      <label style={{ fontSize: '0.85rem', marginTop: '0.5rem' }}><input type="checkbox" checked={row.isMerged} onChange={e => updateRow(row.id, 'isMerged', e.target.checked)} /> Hoạt động gộp chung cả tuần (T2-T6)</label>
+                    )}
+                  </div>
+                ) : (
+                  <div style={{ whiteSpace: 'pre-wrap', color: 'var(--secondary)' }}>{text}</div>
+                )}
+              </div>
+            );
+          })}
+          {isEditing && (
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+              <button onClick={() => addRow('morning')} style={{ flex: 1, padding: '0.8rem', borderRadius: '8px', border: '1px dashed #3b82f6', color: '#3b82f6', background: 'white' }}>+ Thêm Sáng</button>
+              <button onClick={() => addRow('afternoon')} style={{ flex: 1, padding: '0.8rem', borderRadius: '8px', border: '1px dashed #f59e0b', color: '#f59e0b', background: 'white' }}>+ Thêm Chiều</button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* DESKTOP TABLE VIEW */}
+      <div className="desktop-only" style={{ overflowX: 'auto', background: 'white', padding: '1rem', borderRadius: '8px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid #1f2937', minWidth: '1000px', background: '#f8fafc' }}>
           <thead>
             <tr>

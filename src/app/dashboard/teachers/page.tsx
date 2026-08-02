@@ -54,10 +54,10 @@ export default function TeachersPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <div className="flex-header" style={{ marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Quản Lý Giáo Viên</h2>
         {(role === 'principal' || role === 'vice_principal') && (
-          <button className="btn-primary" onClick={() => setIsModalOpen(true)} style={{ padding: '0.8rem 1.5rem', borderRadius: '12px' }}>
+          <button className="btn-primary" onClick={() => setIsModalOpen(true)} style={{ width: '100%', padding: '0.8rem 1.5rem', borderRadius: '12px' }}>
             + Thêm Giáo Viên
           </button>
         )}
@@ -98,7 +98,7 @@ export default function TeachersPage() {
 
       {isModalOpen && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, backdropFilter: 'blur(5px)' }}>
-          <div className="glass-panel" style={{ background: 'white', width: '100%', maxWidth: '500px', padding: '2.5rem', borderRadius: '24px' }}>
+          <div className="glass-panel" style={{ background: 'white', width: '100%', maxWidth: '500px', padding: '1.5rem', borderRadius: '24px', maxHeight: '90vh', overflowY: 'auto' }}>
             <h3 style={{ margin: '0 0 1.5rem 0', color: 'var(--secondary)', fontSize: '1.5rem' }}>Thêm Giáo Viên Mới</h3>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               <div className="input-group">

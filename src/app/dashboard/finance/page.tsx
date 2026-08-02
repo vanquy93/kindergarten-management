@@ -165,18 +165,18 @@ export default function FinancePage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <div className="flex-header" style={{ marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '1.8rem', color: 'var(--secondary)', margin: 0 }}>Quản Lý Tài Chính & Hóa Đơn</h2>
         {(role === 'principal' || role === 'vice_principal') && (
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <button className="btn-secondary" onClick={handleApproveAll} style={{ padding: '0.8rem 1.5rem', borderRadius: '12px', background: 'white', color: '#FF9800', border: '1px solid #FF9800' }}>
+        <div className="flex-header" style={{ width: '100%', gap: '0.5rem' }}>
+          <button className="btn-secondary" onClick={handleApproveAll} style={{ width: '100%', padding: '0.8rem 1.5rem', borderRadius: '12px', background: 'white', color: '#FF9800', border: '1px solid #FF9800' }}>
             ✓ Duyệt Hàng Loạt
           </button>
-          <button className="btn-secondary" onClick={handleExportCSV} style={{ padding: '0.8rem 1.5rem', borderRadius: '12px', background: 'white', color: '#4CAF50', border: '1px solid #4CAF50' }}>
-            📊 Xuất Báo Cáo Tháng
+          <button className="btn-secondary" onClick={handleExportCSV} style={{ width: '100%', padding: '0.8rem 1.5rem', borderRadius: '12px', background: 'white', color: '#4CAF50', border: '1px solid #4CAF50' }}>
+            📊 Xuất Báo Cáo
           </button>
-          <button className="btn-primary" onClick={() => setIsModalOpen(true)} style={{ padding: '0.8rem 1.5rem', borderRadius: '12px' }}>
-            + Tạo Hóa Đơn Tùy Biến
+          <button className="btn-primary" onClick={() => setIsModalOpen(true)} style={{ width: '100%', padding: '0.8rem 1.5rem', borderRadius: '12px' }}>
+            + Tạo Hóa Đơn
           </button>
         </div>
         )}
@@ -197,27 +197,27 @@ export default function FinancePage() {
               return true;
             }).map((inv, idx) => (
               <tr key={idx} style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
-                <td style={{ padding: '1.2rem', fontWeight: 600 }}>{inv.id}</td>
-                <td style={{ padding: '1.2rem' }}>
+                <td data-label="Mã Hóa Đơn" style={{ padding: '1.2rem', fontWeight: 600 }}>{inv.id}</td>
+                <td data-label="Học Sinh" style={{ padding: '1.2rem' }}>
                   <div style={{ fontWeight: 600, color: 'var(--secondary)' }}>{inv.studentName}</div>
                   {inv.parentName && <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>PH: {inv.parentName}</div>}
                   <div style={{ color: '#E91E63', fontWeight: 'bold', fontSize: '1.2rem', marginTop: '0.3rem' }}>{inv.total.toLocaleString('vi-VN')} đ</div>
                 </td>
-                <td style={{ padding: '1.2rem' }}>
+                <td data-label="Khoản Thu" style={{ padding: '1.2rem' }}>
                   <ul style={{ margin: 0, paddingLeft: '1.2rem', color: 'var(--text-main)', lineHeight: 1.6 }}>
                     {inv.items.map((item: any, i: number) => (
                       <li key={i}>{item.name}: <strong>{item.amount.toLocaleString('vi-VN')} đ</strong></li>
                     ))}
                   </ul>
                 </td>
-                <td style={{ padding: '1.2rem' }}>
+                <td data-label="Trạng Thái" style={{ padding: '1.2rem' }}>
                   <div style={{ background: inv.status === 'Đã Thanh Toán' ? 'rgba(76,175,80,0.1)' : 'rgba(255,152,0,0.1)', color: inv.status === 'Đã Thanh Toán' ? '#4CAF50' : '#FF9800', padding: '0.4rem 1rem', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 600, display: 'inline-block', marginBottom: '0.5rem', border: `1px solid ${inv.status === 'Đã Thanh Toán' ? '#4CAF50' : '#FF9800'}` }}>{inv.status}</div>
                   <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{inv.time}</div>
                   
                   {inv.status === 'Chờ Thanh Toán' && (role === 'principal' || role === 'vice_principal') && (
                     <button 
                       onClick={() => handlePay(inv.id)}
-                      style={{ marginTop: '0.8rem', display: 'block', background: 'white', color: 'var(--primary)', border: '1px solid var(--primary)', padding: '0.4rem 0.8rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 'bold', transition: 'all 0.2s' }}
+                      style={{ marginTop: '0.8rem', display: 'block', background: 'white', color: 'var(--primary)', border: '1px solid var(--primary)', padding: '0.4rem 0.8rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 'bold', transition: 'all 0.2s', width: '100%' }}
                       onMouseOver={(e) => { e.currentTarget.style.background = 'var(--primary)'; e.currentTarget.style.color = 'white'; }}
                       onMouseOut={(e) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = 'var(--primary)'; }}
                     >

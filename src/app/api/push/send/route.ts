@@ -6,14 +6,15 @@ const db = createClient({
   url: 'file:dev.db'
 });
 
-webpush.setVapidDetails(
-  'mailto:vanquy93mc@gmail.com',
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY as string,
-  process.env.VAPID_PRIVATE_KEY as string
-);
-
 export async function POST(req: Request) {
   try {
+    if (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
+      webpush.setVapidDetails(
+        'mailto:vanquy93mc@gmail.com',
+        process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY as string,
+        process.env.VAPID_PRIVATE_KEY as string
+      );
+    }
     const { title, message, url, targetRole } = await req.json();
 
     let sql = 'SELECT * FROM PushSubscriptions';
