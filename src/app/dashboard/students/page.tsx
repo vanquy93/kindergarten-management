@@ -62,7 +62,6 @@ export default function StudentsPage() {
   const [isEditingClass, setIsEditingClass] = useState(false);
   const [tempClassId, setTempClassId] = useState('');
   const [isNotiModalOpen, setIsNotiModalOpen] = useState(false);
-  const [tempClassId, setTempClassId] = useState('');
 
   const fetchStudentsAndClasses = async () => {
     try {
