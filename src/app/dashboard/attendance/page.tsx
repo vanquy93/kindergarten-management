@@ -114,7 +114,7 @@ export default function AttendancePage() {
   return (
     <div style={{ position: 'relative' }}>
       {toast && (
-        <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', background: '#4CAF50', color: 'white', padding: '1rem 2rem', borderRadius: '50px', boxShadow: '0 10px 30px rgba(76,175,80,0.3)', zIndex: 1000, animation: 'fadeInUp 0.3s ease-out forwards', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
+        <div style={{ position: 'fixed', bottom: '100px', left: '50%', transform: 'translateX(-50%)', width: '90%', maxWidth: '400px', textAlign: 'center', background: '#4CAF50', color: 'white', padding: '1rem', borderRadius: '50px', boxShadow: '0 10px 30px rgba(76,175,80,0.3)', zIndex: 10000, animation: 'fadeInUp 0.3s ease-out forwards', fontWeight: 600 }}>
           {toast}
         </div>
       )}

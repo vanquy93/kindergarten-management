@@ -59,9 +59,9 @@ export default function StudentsPage() {
   const [parentData, setParentData] = useState({ name: '', phone: '' });
   const [parentData2, setParentData2] = useState({ name: '', phone: '' });
 
-  const [notiContent, setNotiContent] = useState('');
-
   const [isEditingClass, setIsEditingClass] = useState(false);
+  const [tempClassId, setTempClassId] = useState('');
+  const [isNotiModalOpen, setIsNotiModalOpen] = useState(false);
   const [tempClassId, setTempClassId] = useState('');
 
   const fetchStudentsAndClasses = async () => {
@@ -308,32 +308,46 @@ export default function StudentsPage() {
             </div>
 
             {role !== 'parent' && (
-            <>
-              <h4 style={{ color: 'var(--secondary)', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1.5rem', marginBottom: '0.5rem' }}>Gửi thông báo cho Phụ huynh</h4>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>Sẽ gửi tới tất cả các liên hệ phụ huynh của học sinh này.</p>
-              <textarea className="form-control" value={notiContent} onChange={e => setNotiContent(e.target.value)} placeholder="Nhập nội dung thông báo..." style={{ height: '80px', marginBottom: '1rem', resize: 'none' }}></textarea>
-              <button className="btn-primary" onClick={async () => {
-                if (!notiContent) return alert('Vui lòng nhập nội dung!');
-                try {
-                  await fetch('/api/activities', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      message: `🔔 Thông báo về bé ${activeStudent.firstName}: ${notiContent}`,
-                      type: 'ThongBao',
-                      color: 'var(--primary)'
-                    })
-                  });
-                  alert(`Đã gửi thông báo tới toàn bộ Phụ huynh của bé!`); 
-                  setNotiContent('');
-                } catch(e) {}
-              }} style={{ width: '100%', padding: '0.8rem', display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
-                <span>🔔</span> Gửi Thông Báo
-              </button>
-            </>
+              <div style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '1.5rem', marginTop: '0.5rem' }}>
+                <button className="btn-primary" onClick={() => setIsNotiModalOpen(true)} style={{ width: '100%', padding: '1rem', borderRadius: '12px', fontSize: '1.1rem', display: 'flex', justifyContent: 'center', gap: '0.5rem', boxShadow: '0 4px 15px rgba(79, 70, 229, 0.3)' }}>
+                  <span>🔔</span> Gửi Thông Báo Cho Phụ Huynh
+                </button>
+              </div>
             )}
           </div>
         </div>
+
+        {isNotiModalOpen && (
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 10000, backdropFilter: 'blur(5px)' }}>
+            <div className="glass-panel" style={{ background: 'white', width: '90%', maxWidth: '500px', padding: '1.5rem', borderRadius: '24px' }}>
+              <h3 style={{ margin: '0 0 0.5rem 0', color: 'var(--secondary)' }}>Gửi thông báo</h3>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Sẽ gửi tới tất cả các liên hệ phụ huynh của học sinh này.</p>
+              <textarea className="form-control" value={notiContent} onChange={e => setNotiContent(e.target.value)} placeholder="Nhập nội dung thông báo..." style={{ height: '100px', marginBottom: '1.5rem', resize: 'none' }}></textarea>
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <button className="btn-secondary" onClick={() => setIsNotiModalOpen(false)} style={{ flex: 1, padding: '1rem' }}>Hủy</button>
+                <button className="btn-primary" onClick={async () => {
+                  if (!notiContent) return alert('Vui lòng nhập nội dung!');
+                  try {
+                    await fetch('/api/activities', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        message: `🔔 Thông báo về bé ${activeStudent.firstName}: ${notiContent}`,
+                        type: 'ThongBao',
+                        color: 'var(--primary)'
+                      })
+                    });
+                    alert(`Đã gửi thông báo tới toàn bộ Phụ huynh của bé!`); 
+                    setNotiContent('');
+                    setIsNotiModalOpen(false);
+                  } catch(e) {}
+                }} style={{ flex: 1, padding: '1rem', display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+                  <span>🔔</span> Gửi Đi
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
