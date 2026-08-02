@@ -12,7 +12,7 @@ self.addEventListener('push', (event) => {
       badge: '/app-icon.jpg',
       vibrate: [200, 100, 200, 100, 200, 100, 200],
       data: { url: data.url || '/dashboard/messages' }
-    })
+    } as any)
   );
 });
 
