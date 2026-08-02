@@ -93,6 +93,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { name: 'Giáo Viên', path: '/dashboard/teachers', icon: '👩‍🏫', roles: ['principal', 'vice_principal'] },
     { name: 'Lớp Học', path: '/dashboard/classes', icon: '🏫', roles: ['principal', 'vice_principal', 'teacher', 'parent'] },
     { name: 'Điểm Danh', path: '/dashboard/attendance', icon: '✅', roles: ['principal', 'vice_principal', 'teacher', 'parent'] },
+    { name: 'Lịch Học', path: '/dashboard/schedule', icon: '📅', roles: ['principal', 'vice_principal', 'teacher', 'parent'] },
     { name: 'Sức Khỏe & Ăn Uống', path: '/dashboard/health', icon: '🏥', roles: ['principal', 'vice_principal', 'teacher', 'parent'] },
     { name: 'Tài Chính', path: '/dashboard/finance', icon: '💰', roles: ['principal', 'vice_principal', 'parent'] },
     { name: 'Đưa Đón', path: '/dashboard/pickup', icon: '🚗', roles: ['principal', 'vice_principal', 'teacher', 'parent'] },
